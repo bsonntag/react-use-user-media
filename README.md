@@ -5,6 +5,14 @@
 
 React hook for accessing user media.
 
+## Disclaimer
+
+This module uses the upcoming [React Hooks API Proposal](https://reactjs.org/docs/hooks-intro.html)
+which is **subject to change** until released to a final version.
+
+This means that the API of this module is also subject to change.
+Please **don't** use it on a production application.
+
 ## Installation
 
 Using npm:
@@ -19,8 +27,8 @@ Using yarn:
 $ yarn add react-use-user-media
 ```
 
-This module uses React's upcoming hooks feature.
-To try this out you'll also need to install the 16.7.0-alpha.0 version
+Since this module uses React's upcoming Hooks feature,
+to try this out you'll need to install the `16.7.0-alpha.0` version
 of `react` and `react-dom`:
 
 ```sh
