@@ -22,12 +22,13 @@ function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function useUserMedia(constraints) {
-  var _usePromise = (0, _reactUsePromise.default)(function () {
+  var _usePromise = (0, _reactUsePromise.default)((0, _react.useMemo)(function () {
     return navigator.mediaDevices.getUserMedia(constraints);
-  }),
-      _usePromise2 = _slicedToArray(_usePromise, 2),
+  }, [constraints])),
+      _usePromise2 = _slicedToArray(_usePromise, 3),
       stream = _usePromise2[0],
-      error = _usePromise2[1];
+      error = _usePromise2[1],
+      state = _usePromise2[2];
 
   (0, _react.useEffect)(function () {
     return function () {
@@ -36,6 +37,7 @@ function useUserMedia(constraints) {
   }, [stream]);
   return {
     error: error,
+    state: state,
     stream: stream
   };
 }
