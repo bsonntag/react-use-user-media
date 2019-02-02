@@ -43,10 +43,14 @@ import Video from '@bsonntag/react-video';
 import useUserMedia from 'react-use-user-media';
 
 function Example() {
-  const { stream } = useUserMedia({ video: true });
+  const { state, stream } = useUserMedia({ video: true });
 
-  if (!stream) {
+  if (state === 'pending') {
     return <p>Waiting...</p>;
+  }
+
+  if (state === 'rejected') {
+    return <p>Error: {error.message}</p>;
   }
 
   return (
@@ -63,13 +67,15 @@ function Example() {
 ```js
 useUserMedia(Object): {
   error: Error,
+  state: 'pending' | 'resolved' | 'rejected',
   stream: MediaStream
 }
 ```
 
 Receives a [constraints object](https://developer.mozilla.org/en-US/docs/Web/API/MediaStreamConstraints)
 to call [`getUserMedia`](https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia)
-with and returns an object with the error and [stream](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream/MediaStream).
+with and returns an object with the [stream](https://developer.mozilla.org/en-US/docs/Web/API/MediaStream/MediaStream),
+the error and the state.
 
 ## Contributing
 

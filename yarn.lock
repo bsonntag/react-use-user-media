@@ -6679,10 +6679,10 @@ react-testing-library@^5.2.3:
   dependencies:
     dom-testing-library "^3.12.0"
 
-react-use-promise@^0.0.0-alpha.0:
-  version "0.0.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/react-use-promise/-/react-use-promise-0.0.0-alpha.0.tgz#f7e3aeafe22621859b99d260880e520a21fab08d"
-  integrity sha512-DGilh583+f3RiU6sMjUvpWo1Y29qJlJW1YhAPfFMsRJEmarnVNm7vJiKOkAhxLNyztioeQR6EHPnvVeN/3/oMA==
+react-use-promise@^0.0.0-alpha.2:
+  version "0.0.0-alpha.2"
+  resolved "https://registry.yarnpkg.com/react-use-promise/-/react-use-promise-0.0.0-alpha.2.tgz#6e526a32fbe2d2e587306fdc6e46049eb6807d17"
+  integrity sha512-ID6UoedxHg8I4C2i+PBqu+wbSWn+lUVkwQpFG07odheV7ZYNhmnRQyITmYm7ICC/ENZ+CsCo4SCOkQL0LUWBfg==
 
 react@^16.8.0-alpha.1:
   version "16.8.0-alpha.1"

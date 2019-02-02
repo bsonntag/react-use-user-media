@@ -3,13 +3,24 @@ import React from 'react';
 import Video from '@bsonntag/react-video';
 import useUserMedia from '../src';
 
-const Example = () => {
-  const { stream } = useUserMedia({ video: true });
+const constraints = { video: true };
 
-  if (!stream) {
+const Example = () => {
+  const { error, state, stream } = useUserMedia(constraints);
+
+  if (state === 'pending') {
     return (
       <p>
         {'Waiting...'}
+      </p>
+    );
+  }
+
+  if (state === 'rejected') {
+    return (
+      <p>
+        {'Error: '}
+        {error.message}
       </p>
     );
   }
