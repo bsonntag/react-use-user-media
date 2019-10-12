@@ -1,6 +1,6 @@
 {
   "name": "react-use-user-media",
-  "version": "0.0.0-alpha.2",
+  "version": "0.0.0",
   "description": "React hook for accessing user media.",
   "keywords": [
     "hook",
