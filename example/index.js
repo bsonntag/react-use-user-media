@@ -1,12 +1,24 @@
 import { render } from 'react-dom';
-import React from 'react';
-import Video from '@bsonntag/react-video';
+import React, { useEffect, useRef } from 'react';
 import useUserMedia from '../src';
 
-const constraints = { video: true };
+const videoSize = { height: 480, width: 640 };
+const constraints = {
+  video: true
+};
 
 const Example = () => {
   const { error, state, stream } = useUserMedia(constraints);
+  const ref = useRef();
+
+  useEffect(() => {
+    if (state !== 'resolved' || !stream) {
+      return;
+    }
+
+    ref.current.srcObject = stream;
+    ref.current.play();
+  }, [state, stream]);
 
   if (state === 'pending') {
     return (
@@ -26,9 +38,9 @@ const Example = () => {
   }
 
   return (
-    <Video
-      play
-      srcObject={stream}
+    <video
+      ref={ref}
+      style={videoSize}
     />
   );
 };

@@ -1,12 +1,36 @@
-import { useEffect, useMemo } from 'react';
+import { useDebugValue, useEffect, useState } from 'react';
 import stopMediaStream from 'stop-media-stream';
-import usePromise from 'react-use-promise';
 
 function useUserMedia(constraints) {
-  const [stream, error, state] = usePromise(useMemo(
-    () => navigator.mediaDevices.getUserMedia(constraints),
-    [constraints]
-  ));
+  const [stream, setStream] = useState();
+  const [error, setError] = useState();
+  const [state, setState] = useState('pending');
+
+  useDebugValue({ error, state, stream });
+
+  useEffect(() => {
+    let canceled = false;
+
+    setState('pending');
+    navigator.mediaDevices.getUserMedia(constraints).then(
+      stream => {
+        if (!canceled) {
+          setState('resolved');
+          setStream(stream);
+        }
+      },
+      error => {
+        if (!canceled) {
+          setState('rejected');
+          setError(error);
+        }
+      }
+    );
+
+    return () => {
+      canceled = true;
+    };
+  }, [constraints]);
 
   useEffect(() => () => stopMediaStream(stream), [stream]);
 
