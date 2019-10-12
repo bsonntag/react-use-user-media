@@ -32,7 +32,6 @@
     ]
   },
   "dependencies": {
-    "react-use-promise": "^0.0.0-alpha.2",
     "stop-media-stream": "^0.0.2"
   },
   "devDependencies": {

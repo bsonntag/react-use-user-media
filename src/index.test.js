@@ -1,57 +1,64 @@
-import { render, wait } from 'react-testing-library';
-import React from 'react';
+import { renderHook } from '@testing-library/react-hooks';
 import useUserMedia from '.';
 
-const constraints = {};
-
-const Test = () => {
-  const { error, state, stream } = useUserMedia(constraints);
-
-  return (
-    <>
-      <p>{state}</p>
-      <p>{error || stream}</p>
-    </>
-  );
-};
-
 describe('useUserMedia', () => {
+  const constraints = {};
+
   navigator.mediaDevices = navigator.mediaDevices || {};
 
   it('should return a `pending` state while the getUserMedia promise is pending', () => {
-    navigator.mediaDevices.getUserMedia = jest.fn(() => Promise.resolve('foo'));
+    navigator.mediaDevices.getUserMedia = jest.fn(() => new Promise(() => {}));
 
-    const app = <Test />;
-    const { container } = render(app);
+    const { result } = renderHook(() => useUserMedia(constraints));
 
-    expect(container).toHaveTextContent('pending');
+    expect(result.current.state).toBe('pending');
   });
 
   it('should return the user media stream', async () => {
     navigator.mediaDevices.getUserMedia = jest.fn(() => Promise.resolve('foo'));
 
-    const app = <Test />;
-    const { container, rerender } = render(app);
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useUserMedia(constraints)
+    );
 
-    rerender(app);
+    await waitForNextUpdate();
 
-    await wait(() => {
-      expect(container).toHaveTextContent('resolved');
-      expect(container).toHaveTextContent('foo');
-    });
+    expect(result.current.stream).toBe('foo');
+  });
+
+  it('should return a `resolved` state when the getUserMedia promise is resolved', async () => {
+    navigator.mediaDevices.getUserMedia = jest.fn(() => Promise.resolve('foo'));
+
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useUserMedia(constraints)
+    );
+
+    await waitForNextUpdate();
+
+    expect(result.current.state).toBe('resolved');
   });
 
   it('should return the user media error', async () => {
     navigator.mediaDevices.getUserMedia = jest.fn(() => Promise.reject('foo'));
 
-    const app = <Test />;
-    const { container, rerender } = render(app);
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useUserMedia(constraints)
+    );
 
-    rerender(app);
+    await waitForNextUpdate();
 
-    await wait(() => {
-      expect(container).toHaveTextContent('rejected');
-      expect(container).toHaveTextContent('foo');
-    });
+    expect(result.current.error).toBe('foo');
+  });
+
+  it('should return a `rejected` state when the getUserMedia promise is rejected', async () => {
+    navigator.mediaDevices.getUserMedia = jest.fn(() => Promise.reject('foo'));
+
+    const { result, waitForNextUpdate } = renderHook(() =>
+      useUserMedia(constraints)
+    );
+
+    await waitForNextUpdate();
+
+    expect(result.current.state).toBe('rejected');
   });
 });

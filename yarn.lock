@@ -6292,11 +6292,6 @@ react-test-renderer@^16.10.2:
     react-is "^16.8.6"
     scheduler "^0.16.2"
 
-react-use-promise@^0.0.0-alpha.2:
-  version "0.0.0-alpha.2"
-  resolved "https://registry.yarnpkg.com/react-use-promise/-/react-use-promise-0.0.0-alpha.2.tgz#6e526a32fbe2d2e587306fdc6e46049eb6807d17"
-  integrity sha512-ID6UoedxHg8I4C2i+PBqu+wbSWn+lUVkwQpFG07odheV7ZYNhmnRQyITmYm7ICC/ENZ+CsCo4SCOkQL0LUWBfg==
-
 react@^16.10.2:
   version "16.10.2"
   resolved "https://registry.yarnpkg.com/react/-/react-16.10.2.tgz#a5ede5cdd5c536f745173c8da47bda64797a4cf0"
