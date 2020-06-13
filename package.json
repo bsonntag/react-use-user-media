@@ -16,7 +16,6 @@
   "scripts": {
     "bundle": "rm -rf dist && babel src --out-dir dist --ignore **/*.test.js",
     "bundle:watch": "babel src --out-dir dist --watch --ignore **/*.test.js",
-    "coveralls": "jest --coverage --silent --coverageReporters=text-lcov | coveralls",
     "example": "parcel --out-dir build example/index.html",
     "lint": "eslint .",
     "test": "jest",
@@ -39,7 +38,6 @@
     "@babel/core": "^7.6.4",
     "@babel/preset-env": "^7.6.3",
     "@testing-library/react-hooks": "^2.0.3",
-    "coveralls": "^3.0.7",
     "eslint": "^5.16.0",
     "eslint-config-seegno": "^15.0.0",
     "eslint-plugin-react": "7.14.3",

@@ -1,7 +1,6 @@
 # react-use-user-media
 
 [![CircleCI](https://circleci.com/gh/bsonntag/react-use-user-media.svg?style=svg)](https://circleci.com/gh/bsonntag/react-use-user-media)
-[![Coverage Status](https://coveralls.io/repos/github/bsonntag/react-use-user-media/badge.svg?branch=master)](https://coveralls.io/github/bsonntag/react-use-user-media?branch=master)
 
 React hook for accessing user media.
 
