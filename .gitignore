@@ -61,6 +61,5 @@ typings/
 build
 .parcel-cache
 
-
 # IDE
 .vscode
