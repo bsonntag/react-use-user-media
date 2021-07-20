@@ -60,3 +60,6 @@ typings/
 # Parcel folders
 build
 .cache
+
+# IDE
+.vscode

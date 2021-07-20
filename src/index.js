@@ -1,28 +1,53 @@
-import { useDebugValue, useEffect, useState } from 'react';
-import stopMediaStream from 'stop-media-stream';
+import { useDebugValue, useEffect, useReducer } from "react";
+import stopMediaStream from "stop-media-stream";
 
-function useUserMedia(constraints) {
-  const [stream, setStream] = useState();
-  const [error, setError] = useState();
-  const [state, setState] = useState('pending');
+/**
+ * Reducer that handles all useUserMedia states and actions.
+ */
+const mediaStateReducer = (curMediaState, action) => {
+  switch (action.type) {
+    case "GET":
+      return { ...curMediaState, state: "pending" };
+    case "RESPONSE":
+      return { ...curMediaState, state: "resolved", stream: action.stream };
+    case "ERROR":
+      return { ...curMediaState, state: "rejected", error: action.error };
+    default:
+      throw new Error(
+        `Action type ${action.type} not supported by the mediaStateReducer`
+      );
+  }
+};
 
-  useDebugValue({ error, state, stream });
+/**
+ * React hook for accessing user media.
+ * This hook ensures that getUserMedia is only called one time.
+ *
+ * @remarks Please make sure you wrap your constraint object inside a useEffect or
+ * useMemo hook to prevent infinite render loops
+ */
+export const useUserMedia = (constraints) => {
+  const [userMediaState, dispatchUserMedia] = useReducer(mediaStateReducer, {
+    error: null,
+    state: "pending",
+    stream: null,
+  });
+
+  useDebugValue(userMediaState);
 
   useEffect(() => {
     let canceled = false;
 
-    setState('pending');
+    dispatchUserMedia({ type: "GET" });
     navigator.mediaDevices.getUserMedia(constraints).then(
-      stream => {
+      (stream) => {
         if (!canceled) {
-          setState('resolved');
-          setStream(stream);
+          dispatchUserMedia({ type: "RESPONSE", stream: stream });
         }
       },
-      error => {
+      (error) => {
         if (!canceled) {
-          setState('rejected');
-          setError(error);
+          dispatchUserMedia({ type: "ERROR", errorMessage: error.message });
         }
       }
     );
@@ -32,9 +57,12 @@ function useUserMedia(constraints) {
     };
   }, [constraints]);
 
-  useEffect(() => () => stopMediaStream(stream), [stream]);
+  useEffect(
+    () => () => stopMediaStream(userMediaState.stream),
+    [userMediaState.stream]
+  );
 
-  return { error, state, stream };
-}
+  return userMediaState;
+};
 
 export default useUserMedia;
