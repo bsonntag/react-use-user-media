@@ -2,6 +2,8 @@ import { render } from 'react-dom';
 import React, { useEffect, useRef } from 'react';
 import useUserMedia from '../src';
 
+window.React = React;
+
 const videoSize = { height: 480, width: 640 };
 const constraints = {
   video: true

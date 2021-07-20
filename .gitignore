@@ -59,7 +59,8 @@ typings/
 
 # Parcel folders
 build
-.cache
+.parcel-cache
+
 
 # IDE
 .vscode

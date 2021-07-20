@@ -16,7 +16,7 @@
   "scripts": {
     "bundle": "rm -rf dist && babel src --out-dir dist --ignore **/*.test.js",
     "bundle:watch": "babel src --out-dir dist --watch --ignore **/*.test.js",
-    "example": "parcel --out-dir build example/index.html",
+    "example": "parcel --dist-dir build example/index.html",
     "lint": "eslint .",
     "test": "jest",
     "test:watch": "jest --watch --notify",
