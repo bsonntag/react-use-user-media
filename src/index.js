@@ -1,17 +1,21 @@
-import { useDebugValue, useEffect, useReducer } from "react";
-import stopMediaStream from "stop-media-stream";
+/* eslint-disable valid-jsdoc */
+import { useDebugValue, useEffect, useReducer } from 'react';
+import stopMediaStream from 'stop-media-stream';
 
 /**
  * Reducer that handles all useUserMedia states and actions.
  */
 const mediaStateReducer = (curMediaState, action) => {
   switch (action.type) {
-    case "GET":
-      return { ...curMediaState, state: "pending" };
-    case "RESPONSE":
-      return { ...curMediaState, state: "resolved", stream: action.stream };
-    case "ERROR":
-      return { ...curMediaState, state: "rejected", error: action.error };
+    case 'GET':
+      return { ...curMediaState, state: 'pending' };
+
+    case 'RESPONSE':
+      return { ...curMediaState, state: 'resolved', stream: action.stream };
+
+    case 'ERROR':
+      return { ...curMediaState, error: action.error, state: 'rejected' };
+
     default:
       throw new Error(
         `Action type ${action.type} not supported by the mediaStateReducer`
@@ -26,11 +30,11 @@ const mediaStateReducer = (curMediaState, action) => {
  * @remarks Please make sure you wrap your constraint object inside a useEffect or
  * useMemo hook to prevent infinite render loops
  */
-export const useUserMedia = (constraints) => {
+export const useUserMedia = constraints => {
   const [userMediaState, dispatchUserMedia] = useReducer(mediaStateReducer, {
     error: null,
-    state: "pending",
-    stream: null,
+    state: 'pending',
+    stream: null
   });
 
   useDebugValue(userMediaState);
@@ -38,16 +42,16 @@ export const useUserMedia = (constraints) => {
   useEffect(() => {
     let canceled = false;
 
-    dispatchUserMedia({ type: "GET" });
+    dispatchUserMedia({ type: 'GET' });
     navigator.mediaDevices.getUserMedia(constraints).then(
-      (stream) => {
+      stream => {
         if (!canceled) {
-          dispatchUserMedia({ type: "RESPONSE", stream: stream });
+          dispatchUserMedia({ stream, type: 'RESPONSE' });
         }
       },
-      (error) => {
+      error => {
         if (!canceled) {
-          dispatchUserMedia({ type: "ERROR", errorMessage: error.message });
+          dispatchUserMedia({ error, type: 'ERROR' });
         }
       }
     );
