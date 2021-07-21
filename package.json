@@ -45,12 +45,12 @@
     "jest": "^24.9.0",
     "lint-staged": "^9.4.2",
     "parcel": "^1.12.4",
-    "react": "^16.10.2",
-    "react-dom": "^16.10.2",
-    "react-test-renderer": "^16.10.2",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-test-renderer": "^17.0.2",
     "sort-package-json": "^1.22.1"
   },
   "peerDependencies": {
-    "react": "^16.8.0"
+    "react": "^17.0.2"
   }
 }
