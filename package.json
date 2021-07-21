@@ -12,9 +12,10 @@
   "repository": "git@github.com:bsonntag/react-use-user-media.git",
   "license": "MIT",
   "author": "Benjamim Sonntag <benjamimsonntag@gmail.com>",
-  "main": "dist/index.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
-    "bundle": "rm -rf dist && babel src --out-dir dist --ignore **/*.test.js --extensions .ts,.tsx",
+    "bundle": "rm -rf dist && tsc && babel src --out-dir dist --ignore **/*.test.js --extensions .ts,.tsx",
     "bundle:watch": "babel src --out-dir dist --watch --ignore **/*.test.js --extensions .ts,.tsx",
     "example": "parcel --dist-dir build example/index.html",
     "lint": "eslint .",
@@ -34,7 +35,7 @@
     ]
   },
   "dependencies": {
-    "stop-media-stream": "^0.0.2"
+    "stop-media-stream": "git://github.com/rickstaa/stop-media-stream.git#convert_to_typescript"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.4",

@@ -1,21 +1,21 @@
-import { useDebugValue, useEffect, useReducer } from "react";
-import stopMediaStream from "stop-media-stream";
+import { useDebugValue, useEffect, useReducer } from 'react';
+import stopMediaStream from 'stop-media-stream';
 
 interface MediaState {
-  error: null | MediaError;
+  error: MediaError | null;
   state: string;
   stream: MediaStream | null;
 }
 
 interface GetUserMedia {
-  type: "GET";
+  type: 'GET';
 }
 interface UserMediaResponse {
-  type: "RESPONSE";
+  type: 'RESPONSE';
   stream: MediaStream;
 }
 interface UserMediaError {
-  type: "ERROR";
+  type: 'ERROR';
   error: MediaError;
 }
 type MediaActions = GetUserMedia | UserMediaResponse | UserMediaError;
@@ -25,14 +25,14 @@ type MediaActions = GetUserMedia | UserMediaResponse | UserMediaError;
  */
 const mediaStateReducer = (curMediaState: MediaState, action: MediaActions) => {
   switch (action.type) {
-    case "GET":
-      return { ...curMediaState, state: "pending" };
+    case 'GET':
+      return { ...curMediaState, state: 'pending' };
 
-    case "RESPONSE":
-      return { ...curMediaState, state: "resolved", stream: action.stream };
+    case 'RESPONSE':
+      return { ...curMediaState, state: 'resolved', stream: action.stream };
 
-    case "ERROR":
-      return { ...curMediaState, error: action.error, state: "rejected" };
+    case 'ERROR':
+      return { ...curMediaState, error: action.error, state: 'rejected' };
 
     default:
       return { ...curMediaState };
@@ -51,7 +51,7 @@ export const useUserMedia = (
 ): MediaState => {
   const [userMediaState, dispatchUserMedia] = useReducer(mediaStateReducer, {
     error: null,
-    state: "pending",
+    state: 'pending',
     stream: null,
   });
 
@@ -60,16 +60,16 @@ export const useUserMedia = (
   useEffect(() => {
     let canceled = false;
 
-    dispatchUserMedia({ type: "GET" });
+    dispatchUserMedia({ type: 'GET' });
     navigator.mediaDevices.getUserMedia(constraints).then(
-      (stream) => {
+      stream => {
         if (!canceled) {
-          dispatchUserMedia({ stream, type: "RESPONSE" });
+          dispatchUserMedia({ stream, type: 'RESPONSE' });
         }
       },
-      (error) => {
+      error => {
         if (!canceled) {
-          dispatchUserMedia({ error, type: "ERROR" });
+          dispatchUserMedia({ error, type: 'ERROR' });
         }
       }
     );
@@ -79,10 +79,9 @@ export const useUserMedia = (
     };
   }, [constraints]);
 
-  useEffect(
-    () => () => stopMediaStream(userMediaState.stream),
-    [userMediaState.stream]
-  );
+  useEffect(() => () => stopMediaStream(userMediaState.stream), [
+    userMediaState.stream,
+  ]);
 
   return userMediaState;
 };
