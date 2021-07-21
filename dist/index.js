@@ -84,7 +84,7 @@ function ownKeys(object, enumerableOnly) {
   if (Object.getOwnPropertySymbols) {
     var symbols = Object.getOwnPropertySymbols(object);
     if (enumerableOnly) {
-      symbols = symbols.filter(function (sym) {
+      symbols = symbols.filter(function(sym) {
         return Object.getOwnPropertyDescriptor(object, sym).enumerable;
       });
     }
@@ -97,13 +97,13 @@ function _objectSpread(target) {
   for (var i = 1; i < arguments.length; i++) {
     var source = arguments[i] != null ? arguments[i] : {};
     if (i % 2) {
-      ownKeys(Object(source), true).forEach(function (key) {
+      ownKeys(Object(source), true).forEach(function(key) {
         _defineProperty(target, key, source[key]);
       });
     } else if (Object.getOwnPropertyDescriptors) {
       Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
     } else {
-      ownKeys(Object(source)).forEach(function (key) {
+      ownKeys(Object(source)).forEach(function(key) {
         Object.defineProperty(
           target,
           key,
@@ -164,12 +164,7 @@ var mediaStateReducer = function mediaStateReducer(curMediaState, action) {
       );
 
     default:
-      throw new Error(
-        'Action type '.concat(
-          action.type,
-          ' not supported by the mediaStateReducer'
-        )
-      );
+      return _objectSpread({}, curMediaState);
   }
 };
 /**
@@ -183,7 +178,7 @@ var mediaStateReducer = function mediaStateReducer(curMediaState, action) {
 var useUserMedia = function useUserMedia(constraints) {
   var _useReducer = (0, _react.useReducer)(mediaStateReducer, {
       error: null,
-      state: 'pending',
+      state: 'starting',
       stream: null,
     }),
     _useReducer2 = _slicedToArray(_useReducer, 2),
@@ -192,13 +187,13 @@ var useUserMedia = function useUserMedia(constraints) {
 
   (0, _react.useDebugValue)(userMediaState);
   (0, _react.useEffect)(
-    function () {
+    function() {
       var canceled = false;
       dispatchUserMedia({
         type: 'GET',
       });
       navigator.mediaDevices.getUserMedia(constraints).then(
-        function (stream) {
+        function(stream) {
           if (!canceled) {
             dispatchUserMedia({
               stream: stream,
@@ -206,7 +201,7 @@ var useUserMedia = function useUserMedia(constraints) {
             });
           }
         },
-        function (error) {
+        function(error) {
           if (!canceled) {
             dispatchUserMedia({
               error: error,
@@ -215,15 +210,15 @@ var useUserMedia = function useUserMedia(constraints) {
           }
         }
       );
-      return function () {
+      return function() {
         canceled = true;
       };
     },
     [constraints]
   );
   (0, _react.useEffect)(
-    function () {
-      return function () {
+    function() {
+      return function() {
         return (0, _stopMediaStream['default'])(userMediaState.stream);
       };
     },

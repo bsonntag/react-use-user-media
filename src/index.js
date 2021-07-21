@@ -9,17 +9,12 @@ const mediaStateReducer = (curMediaState, action) => {
   switch (action.type) {
     case 'GET':
       return { ...curMediaState, state: 'pending' };
-
     case 'RESPONSE':
       return { ...curMediaState, state: 'resolved', stream: action.stream };
-
     case 'ERROR':
       return { ...curMediaState, error: action.error, state: 'rejected' };
-
     default:
-      throw new Error(
-        `Action type ${action.type} not supported by the mediaStateReducer`
-      );
+      return { ...curMediaState };
   }
 };
 
@@ -30,10 +25,10 @@ const mediaStateReducer = (curMediaState, action) => {
  * @remarks Please make sure you wrap your constraint object inside a useEffect or
  * useMemo hook to prevent infinite render loops.
  */
-export const useUserMedia = (constraints) => {
+export const useUserMedia = constraints => {
   const [userMediaState, dispatchUserMedia] = useReducer(mediaStateReducer, {
     error: null,
-    state: 'pending',
+    state: 'starting',
     stream: null,
   });
 
@@ -44,12 +39,12 @@ export const useUserMedia = (constraints) => {
 
     dispatchUserMedia({ type: 'GET' });
     navigator.mediaDevices.getUserMedia(constraints).then(
-      (stream) => {
+      stream => {
         if (!canceled) {
           dispatchUserMedia({ stream, type: 'RESPONSE' });
         }
       },
-      (error) => {
+      error => {
         if (!canceled) {
           dispatchUserMedia({ error, type: 'ERROR' });
         }
@@ -61,10 +56,9 @@ export const useUserMedia = (constraints) => {
     };
   }, [constraints]);
 
-  useEffect(
-    () => () => stopMediaStream(userMediaState.stream),
-    [userMediaState.stream]
-  );
+  useEffect(() => () => stopMediaStream(userMediaState.stream), [
+    userMediaState.stream,
+  ]);
 
   return userMediaState;
 };
