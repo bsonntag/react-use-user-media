@@ -63,3 +63,4 @@ build
 
 # IDE
 .vscode
+*.code-workspace
