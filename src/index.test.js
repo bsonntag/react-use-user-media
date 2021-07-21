@@ -7,7 +7,9 @@ describe('useUserMedia', () => {
   navigator.mediaDevices = navigator.mediaDevices || {};
 
   it('should return a `pending` state while the getUserMedia promise is pending', () => {
-    navigator.mediaDevices.getUserMedia = jest.fn(() => new Promise(() => {}));
+    navigator.mediaDevices.getUserMedia = jest.fn(
+      () => new Promise(() => undefined)
+    );
 
     const { result } = renderHook(() => useUserMedia(constraints));
 
