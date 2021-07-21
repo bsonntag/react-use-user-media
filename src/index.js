@@ -30,11 +30,11 @@ const mediaStateReducer = (curMediaState, action) => {
  * @remarks Please make sure you wrap your constraint object inside a useEffect or
  * useMemo hook to prevent infinite render loops.
  */
-export const useUserMedia = constraints => {
+export const useUserMedia = (constraints) => {
   const [userMediaState, dispatchUserMedia] = useReducer(mediaStateReducer, {
     error: null,
     state: 'pending',
-    stream: null
+    stream: null,
   });
 
   useDebugValue(userMediaState);
@@ -44,12 +44,12 @@ export const useUserMedia = constraints => {
 
     dispatchUserMedia({ type: 'GET' });
     navigator.mediaDevices.getUserMedia(constraints).then(
-      stream => {
+      (stream) => {
         if (!canceled) {
           dispatchUserMedia({ stream, type: 'RESPONSE' });
         }
       },
-      error => {
+      (error) => {
         if (!canceled) {
           dispatchUserMedia({ error, type: 'ERROR' });
         }

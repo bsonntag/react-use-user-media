@@ -6,7 +6,7 @@ window.React = React;
 
 const videoSize = { height: 480, width: 640 };
 const constraints = {
-  video: true
+  video: true,
 };
 
 const Example = () => {
@@ -23,11 +23,7 @@ const Example = () => {
   }, [state, stream]);
 
   if (state === 'pending') {
-    return (
-      <p>
-        {'Waiting...'}
-      </p>
-    );
+    return <p>{'Waiting...'}</p>;
   }
 
   if (state === 'rejected') {
@@ -39,12 +35,7 @@ const Example = () => {
     );
   }
 
-  return (
-    <video
-      ref={ref}
-      style={videoSize}
-    />
-  );
+  return <video ref={ref} style={videoSize} />;
 };
 
 render(<Example />, document.getElementById('root'));
