@@ -14,12 +14,15 @@
   "author": "Benjamim Sonntag <benjamimsonntag@gmail.com>",
   "main": "dist/index.js",
   "scripts": {
-    "bundle": "rm -rf dist && babel src --out-dir dist --ignore **/*.test.js",
-    "bundle:watch": "babel src --out-dir dist --watch --ignore **/*.test.js",
+    "bundle": "rm -rf dist && babel src --out-dir dist --ignore **/*.test.js --extensions .ts,.tsx",
+    "bundle:watch": "babel src --out-dir dist --watch --ignore **/*.test.js --extensions .ts,.tsx",
     "example": "parcel --dist-dir build example/index.html",
     "lint": "eslint .",
     "test": "jest",
     "test:watch": "jest --watch --notify",
+    "clean": "rm -rf node_modules",
+    "sort-packages": "sort-package-json",
+    "reinstall": "npm run clean && npm install",
     "version": "npm run bundle && git add dist"
   },
   "jest": {
@@ -37,18 +40,26 @@
     "@babel/cli": "^7.6.4",
     "@babel/core": "^7.6.4",
     "@babel/preset-env": "^7.6.3",
+    "@babel/preset-typescript": "^7.14.5",
     "@testing-library/react-hooks": "^2.0.3",
-    "eslint": "^5.16.0",
-    "eslint-config-seegno": "^15.0.0",
+    "@types/jest": "^26.0.24",
+    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@typescript-eslint/parser": "^4.28.4",
+    "eslint": "^7.31.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jest": "^24.3.7",
     "eslint-plugin-react": "7.14.3",
-    "husky": "^3.0.8",
+    "husky": "^3.0.9",
     "jest": "^24.9.0",
     "lint-staged": "^9.4.2",
     "parcel": "^2.0.0-beta.2",
+    "prettier": "^1.18.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-test-renderer": "^17.0.2",
-    "sort-package-json": "^1.22.1"
+    "sort-package-json": "^1.22.1",
+    "ts-jest": "^27.0.3",
+    "typescript": "^4.3.5"
   },
   "peerDependencies": {
     "react": "^17.0.2"
