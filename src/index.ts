@@ -27,13 +27,10 @@ const mediaStateReducer = (curMediaState: MediaState, action: MediaActions) => {
   switch (action.type) {
     case 'GET':
       return { ...curMediaState, state: 'pending' };
-
     case 'RESPONSE':
       return { ...curMediaState, state: 'resolved', stream: action.stream };
-
     case 'ERROR':
       return { ...curMediaState, error: action.error, state: 'rejected' };
-
     default:
       return { ...curMediaState };
   }
@@ -51,7 +48,7 @@ export const useUserMedia = (
 ): MediaState => {
   const [userMediaState, dispatchUserMedia] = useReducer(mediaStateReducer, {
     error: null,
-    state: 'pending',
+    state: 'starting',
     stream: null,
   });
 
