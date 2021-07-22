@@ -169,7 +169,6 @@ var mediaStateReducer = function mediaStateReducer(curMediaState, action) {
 };
 /**
  * React hook for accessing user media.
- * This hook ensures that getUserMedia is only called one time.
  *
  * @remarks Please make sure you wrap your constraint object inside a useEffect or
  * useMemo hook to prevent infinite render loops.
