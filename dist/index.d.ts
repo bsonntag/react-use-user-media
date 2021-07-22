@@ -1,4 +1,4 @@
-interface MediaState {
+export interface UserMediaState {
   error: MediaError | null;
   state: string;
   stream: MediaStream | null;
@@ -12,5 +12,5 @@ interface MediaState {
  */
 export declare const useUserMedia: (
   constraints: MediaStreamConstraints
-) => MediaState;
+) => UserMediaState;
 export default useUserMedia;

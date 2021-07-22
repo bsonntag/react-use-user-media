@@ -1,7 +1,7 @@
 import { useDebugValue, useEffect, useReducer } from 'react';
 import stopMediaStream from 'stop-media-stream';
 
-interface MediaState {
+export interface UserMediaState {
   error: MediaError | null;
   state: string;
   stream: MediaStream | null;
@@ -23,7 +23,10 @@ type MediaActions = GetUserMedia | UserMediaResponse | UserMediaError;
 /**
  * Reducer that handles all useUserMedia states and actions.
  */
-const mediaStateReducer = (curMediaState: MediaState, action: MediaActions) => {
+const mediaStateReducer = (
+  curMediaState: UserMediaState,
+  action: MediaActions
+) => {
   switch (action.type) {
     case 'GET':
       return { ...curMediaState, state: 'pending' };
@@ -45,7 +48,7 @@ const mediaStateReducer = (curMediaState: MediaState, action: MediaActions) => {
  */
 export const useUserMedia = (
   constraints: MediaStreamConstraints
-): MediaState => {
+): UserMediaState => {
   const [userMediaState, dispatchUserMedia] = useReducer(mediaStateReducer, {
     error: null,
     state: 'starting',
