@@ -134,15 +134,6 @@ function _defineProperty(obj, key, value) {
  */
 var mediaStateReducer = function mediaStateReducer(curMediaState, action) {
   switch (action.type) {
-    case 'GET':
-      return _objectSpread(
-        _objectSpread({}, curMediaState),
-        {},
-        {
-          state: 'pending',
-        }
-      );
-
     case 'RESPONSE':
       return _objectSpread(
         _objectSpread({}, curMediaState),
@@ -177,7 +168,7 @@ var mediaStateReducer = function mediaStateReducer(curMediaState, action) {
 var useUserMedia = function useUserMedia(constraints) {
   var _useReducer = (0, _react.useReducer)(mediaStateReducer, {
       error: null,
-      state: 'starting',
+      state: 'pending',
       stream: null,
     }),
     _useReducer2 = _slicedToArray(_useReducer, 2),
@@ -188,9 +179,6 @@ var useUserMedia = function useUserMedia(constraints) {
   (0, _react.useEffect)(
     function() {
       var canceled = false;
-      dispatchUserMedia({
-        type: 'GET',
-      });
       navigator.mediaDevices.getUserMedia(constraints).then(
         function(stream) {
           if (!canceled) {
