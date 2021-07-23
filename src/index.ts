@@ -28,8 +28,6 @@ const mediaStateReducer = (
   action: MediaActions
 ) => {
   switch (action.type) {
-    case 'GET':
-      return { ...curMediaState, state: 'pending' };
     case 'RESPONSE':
       return { ...curMediaState, state: 'resolved', stream: action.stream };
     case 'ERROR':
@@ -50,7 +48,7 @@ export const useUserMedia = (
 ): UserMediaState => {
   const [userMediaState, dispatchUserMedia] = useReducer(mediaStateReducer, {
     error: null,
-    state: 'starting',
+    state: 'pending',
     stream: null,
   });
 
@@ -59,7 +57,6 @@ export const useUserMedia = (
   useEffect(() => {
     let canceled = false;
 
-    dispatchUserMedia({ type: 'GET' });
     navigator.mediaDevices.getUserMedia(constraints).then(
       stream => {
         if (!canceled) {
