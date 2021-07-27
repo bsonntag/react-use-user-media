@@ -169,7 +169,7 @@ var useUserMedia = function useUserMedia(constraints) {
   var _useReducer = (0, _react.useReducer)(mediaStateReducer, {
       error: null,
       state: 'pending',
-      stream: null,
+      stream: undefined,
     }),
     _useReducer2 = _slicedToArray(_useReducer, 2),
     userMediaState = _useReducer2[0],

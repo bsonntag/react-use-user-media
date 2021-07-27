@@ -1,7 +1,7 @@
 export interface UserMediaState {
   error: MediaError | null;
   state: string;
-  stream: MediaStream | null;
+  stream: MediaStream | undefined;
 }
 /**
  * React hook for accessing user media.

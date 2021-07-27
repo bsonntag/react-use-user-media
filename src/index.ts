@@ -4,7 +4,7 @@ import stopMediaStream from 'stop-media-stream';
 export interface UserMediaState {
   error: MediaError | null;
   state: string;
-  stream: MediaStream | null;
+  stream: MediaStream | undefined;
 }
 
 interface GetUserMedia {
@@ -49,7 +49,7 @@ export const useUserMedia = (
   const [userMediaState, dispatchUserMedia] = useReducer(mediaStateReducer, {
     error: null,
     state: 'pending',
-    stream: null,
+    stream: undefined,
   });
 
   useDebugValue(userMediaState);
