@@ -18,6 +18,8 @@ const mediaStateReducer = (curMediaState, action) => {
 
 /**
  * React hook for accessing user media.
+ * @param constraints - The media stream constraints.
+ * @returns {Object} The user media state object (i.e. {stream, error, state}).
  *
  * @remarks Please make sure you wrap your constraint object inside a useEffect or
  * useMemo hook to prevent infinite render loops.
