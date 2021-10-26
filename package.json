@@ -13,10 +13,11 @@
   "license": "MIT",
   "author": "Benjamim Sonntag <benjamimsonntag@gmail.com>",
   "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "bundle": "rm -rf dist && babel src --out-dir dist --ignore **/*.test.js",
-    "bundle:watch": "babel src --out-dir dist --watch --ignore **/*.test.js",
-    "example": "parcel --out-dir build example/index.html",
+    "bundle": "mv ./dist/index.d.ts . && rm -rf dist/* && mv index.d.ts ./dist/index.d.ts && babel src --out-dir dist --ignore **/*.test.js",
+    "bundle:watch": "mv ./dist/index.d.ts . && rm -rf dist/* && mv index.d.ts ./dist/index.d.ts && babel src --out-dir dist --watch --ignore **/*.test.js",
+    "example": "parcel --dist-dir build example/index.html",
     "lint": "eslint .",
     "test": "jest",
     "test:watch": "jest --watch --notify",
@@ -31,12 +32,14 @@
     ]
   },
   "dependencies": {
-    "stop-media-stream": "^0.0.2"
+    "stop-media-stream": "^0.0.2",
+    "typescript": "^4.4.4"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.4",
     "@babel/core": "^7.6.4",
     "@babel/preset-env": "^7.6.3",
+    "@babel/preset-react": "^7.14.5",
     "@testing-library/react-hooks": "^2.0.3",
     "eslint": "^5.16.0",
     "eslint-config-seegno": "^15.0.0",
@@ -44,7 +47,7 @@
     "husky": "^3.0.8",
     "jest": "^24.9.0",
     "lint-staged": "^9.4.2",
-    "parcel": "^1.12.4",
+    "parcel": "^2.0.0-beta.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-test-renderer": "^16.10.2",
