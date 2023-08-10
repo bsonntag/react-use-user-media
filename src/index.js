@@ -1,28 +1,52 @@
-import { useDebugValue, useEffect, useState } from 'react';
+/* eslint-disable valid-jsdoc */
+import { useDebugValue, useEffect, useReducer } from 'react';
 import stopMediaStream from 'stop-media-stream';
 
-function useUserMedia(constraints) {
-  const [stream, setStream] = useState();
-  const [error, setError] = useState();
-  const [state, setState] = useState('pending');
+/**
+ * Reducer that handles all useUserMedia states and actions.
+ */
+const mediaStateReducer = (curMediaState, action) => {
+  switch (action.type) {
+    case 'RESPONSE':
+      return { ...curMediaState, state: 'resolved', stream: action.stream };
 
-  useDebugValue({ error, state, stream });
+    case 'ERROR':
+      return { ...curMediaState, error: action.error, state: 'rejected' };
+
+    default:
+      return { ...curMediaState };
+  }
+};
+
+/**
+ * React hook for accessing user media.
+ * @param constraints - The media stream constraints.
+ * @returns The user media state object.
+ *
+ * @remarks Please make sure you wrap your constraint object inside a useEffect or
+ * useMemo hook to prevent infinite render loops.
+ */
+function useUserMedia(constraints) {
+  const [userMediaState, dispatchUserMedia] = useReducer(mediaStateReducer, {
+    error: null,
+    state: 'pending',
+    stream: undefined
+  });
+
+  useDebugValue(userMediaState);
 
   useEffect(() => {
     let canceled = false;
 
-    setState('pending');
     navigator.mediaDevices.getUserMedia(constraints).then(
       stream => {
         if (!canceled) {
-          setState('resolved');
-          setStream(stream);
+          dispatchUserMedia({ stream, type: 'RESPONSE' });
         }
       },
       error => {
         if (!canceled) {
-          setState('rejected');
-          setError(error);
+          dispatchUserMedia({ error, type: 'ERROR' });
         }
       }
     );
@@ -32,9 +56,11 @@ function useUserMedia(constraints) {
     };
   }, [constraints]);
 
-  useEffect(() => () => stopMediaStream(stream), [stream]);
+  useEffect(() => () => stopMediaStream(userMediaState.stream), [
+    userMediaState.stream
+  ]);
 
-  return { error, state, stream };
+  return userMediaState;
 }
 
 export default useUserMedia;
