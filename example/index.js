@@ -1,6 +1,6 @@
+import * as React from 'react';
 import { render } from 'react-dom';
-import React, { useEffect, useRef } from 'react';
-import useUserMedia from '../src';
+import useUserMedia from '../dist';
 
 const videoSize = { height: 480, width: 640 };
 const constraints = {
@@ -9,9 +9,9 @@ const constraints = {
 
 const Example = () => {
   const { error, state, stream } = useUserMedia(constraints);
-  const ref = useRef();
+  const ref = React.useRef();
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (state !== 'resolved' || !stream) {
       return;
     }
